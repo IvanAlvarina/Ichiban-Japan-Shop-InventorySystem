@@ -107,6 +107,14 @@ class OrderController extends Controller
                 'status.*' => 'required|in:pending,completed,cancelled',
             ]);
 
+             // Check if customer already has an order
+            $existingOrder = Order::where('customer_id', $request->customer_id)->first();
+            if ($existingOrder) {
+                return back()
+                    ->with('error', 'This customer already has an order. If you want to add another one, please edit the existing order.')
+                    ->withInput();
+            }
+
             // Start database transaction
             DB::beginTransaction();
 

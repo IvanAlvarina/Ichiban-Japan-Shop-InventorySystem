@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Order\OrderController;
@@ -11,7 +12,7 @@ Route::get('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/register', [LoginController::class, 'store'])->name('register.store');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
 
-Route::get('/dashboard', [LoginController::class, 'dashboard'])->middleware('auth')
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')
 ->name('dashboard');
 
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');

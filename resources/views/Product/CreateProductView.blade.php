@@ -1,6 +1,6 @@
 @extends('layouts.vuexy')
 
-@section('title', 'Dashboard')
+@section('title', 'Add Product')
 
 @section('content')
 

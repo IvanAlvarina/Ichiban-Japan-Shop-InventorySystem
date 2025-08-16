@@ -1,4 +1,4 @@
-@extends('layouts.vuexy')
+@extends('Layouts.vuexy')
 
 @section('title', 'Dashboard')
 

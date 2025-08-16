@@ -10,17 +10,25 @@
 
 @endpush
 
+@section('title', 'Dashboard')
+
+@section('content')
+
+@push('page-styles')
+
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+
+@endpush
+
 <div class="card">
     <div class="card-datatable table-responsive pt-0">
         <table class="datatables-basic table">
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Stocks</th>
-                    <th>Status</th>
+                    <th>Customer Name</th>
+                    <th>email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -40,7 +48,7 @@
         if (dt_basic_table.length) {
             dt_basic_table.DataTable({
                 ajax: {
-                    url: '{{ route("products.json") }}',
+                    url: '{{ route("customers.json") }}',
                     type: 'GET',
                     error: function(xhr, error, code) {
                         console.log('AJAX Error:', xhr, error, code);
@@ -48,12 +56,10 @@
                     }
                 },
                 columns: [
-                    { data: 'product_name' },
-                    { data: 'description' },
-                    { data: 'price' },
-                    { data: 'category' },
-                    { data: 'stock' },
-                    { data: 'status' },
+                    { data: 'customer_name' },
+                    { data: 'email' },
+                    { data: 'phone' },
+                    { data: 'address' },
                     { data: 'action', orderable: false, searchable: false }
                 ],
                 dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end"B>>' +
@@ -67,10 +73,10 @@
                         buttons: ['excel']
                     },
                     {
-                        text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Product</span>',
+                        text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add customer</span>',
                         className: 'btn btn-primary waves-effect waves-light',
                         action: function () {
-                            window.location.href = '{{ route("products.create") }}';
+                            window.location.href = '{{ route("customers.create") }}';
                         }
                     }
                 ],
@@ -80,12 +86,12 @@
                 pageLength: 10
             });
 
-            $('div.head-label').html('<h5 class="card-title mb-0">Products</h5>');
+            $('div.head-label').html('<h5 class="card-title mb-0">Customers</h5>');
         }
     });
 
-    // Delete product function
-    function deleteProduct(deleteUrl) {
+    // Delete customer function
+    function deleteCustomer(deleteUrl) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -125,4 +131,10 @@
 
 
 </script>
+@endpush
+
+@endsection
+
+@push('page-scripts')
+
 @endpush

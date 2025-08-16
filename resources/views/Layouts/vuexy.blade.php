@@ -142,6 +142,8 @@
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 
     <script src="{{ asset('assets/js/app-ecommerce-product-add.js') }}"></script>
+      
+    <script src="{{ asset('assets/js/tables-datatables-basic.js') }}"></script>
 
     <!-- Vendor Scripts Stack -->
     @stack('vendor-scripts')

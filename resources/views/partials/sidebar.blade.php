@@ -50,5 +50,46 @@
       </ul>
     </li>
 
+    {{-- Customers --}}
+        <li class="menu-item {{ request()->is('customers*') ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-users"></i>
+        <div data-i18n="Customers">Customers</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('customers.index') ? 'active' : '' }}">
+          <a href="{{ route('customers.index') }}" class="menu-link">
+            <div data-i18n="Customer List">Customer List</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('customers.create') ? 'active' : '' }}">
+          <a href="{{ route('customers.create') }}" class="menu-link">
+            <div data-i18n="Add Customer">Add Customer</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    {{-- Orders --}}
+    <li class="menu-item {{ request()->is('orders*') ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-receipt"></i>
+        <div data-i18n="Orders">Orders</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+          <a href="{{ route('orders.index') }}" class="menu-link">
+            <div data-i18n="Order List">Order List</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('orders.create') ? 'active' : '' }}">
+          <a href="{{ route('orders.create') }}" class="menu-link">
+            <div data-i18n="Add Order">Add Order</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
   </ul>
 </aside>

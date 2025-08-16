@@ -16,6 +16,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->
 
 Route::middleware(['auth'])->prefix('products')->name('products.')->group(function () {
     Route::get('/product-list', [ProductController::class, 'index'])->name('index');
+    Route::get('/json', [ProductController::class, 'getProducts'])->name('json');
     Route::get('/create-product', [ProductController::class, 'create'])->name('create');
     Route::post('/create-product-action', [ProductController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [ProductController::class, 'update'])->name('update');
+    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy');
 });

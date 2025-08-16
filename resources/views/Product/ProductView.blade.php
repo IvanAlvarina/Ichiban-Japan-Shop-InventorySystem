@@ -4,6 +4,125 @@
 
 @section('content')
 
-<h1>Product View</h1>
+@push('page-styles')
+
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+
+@endpush
+
+<div class="card">
+    <div class="card-datatable table-responsive pt-0">
+        <table class="datatables-basic table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Stocks</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 
 @endsection
+
+@push('page-scripts')
+<script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+
+<script>
+    $(function () {
+        var dt_basic_table = $('.datatables-basic');
+
+        if (dt_basic_table.length) {
+            dt_basic_table.DataTable({
+                ajax: {
+                    url: '{{ route("products.json") }}',
+                    type: 'GET',
+                    error: function(xhr, error, code) {
+                        console.log('AJAX Error:', xhr, error, code);
+                        alert('Error loading data: ' + xhr.responseText);
+                    }
+                },
+                columns: [
+                    { data: 'product_name' },
+                    { data: 'description' },
+                    { data: 'price' },
+                    { data: 'category' },
+                    { data: 'stock' },
+                    { data: 'status' },
+                    { data: 'action', orderable: false, searchable: false }
+                ],
+                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end"B>>' +
+                    '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>' +
+                    't<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                buttons: [
+                    {
+                        extend: 'collection',
+                        className: 'btn btn-label-primary dropdown-toggle me-2 waves-effect waves-light',
+                        text: '<i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                        buttons: ['excel']
+                    },
+                    {
+                        text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Product</span>',
+                        className: 'btn btn-primary waves-effect waves-light',
+                        action: function () {
+                            window.location.href = '{{ route("products.create") }}';
+                        }
+                    }
+                ],
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                pageLength: 10
+            });
+
+            $('div.head-label').html('<h5 class="card-title mb-0">Products</h5>');
+        }
+    });
+
+    // Delete product function
+    function deleteProduct(deleteUrl) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(deleteUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: '_method=DELETE'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    Swal.fire('Deleted!', data.message, 'success');
+                    $('.datatables-basic').DataTable().ajax.reload(null, false);
+                })
+                .catch(err => {
+                    console.error('Delete error:', err);
+                    Swal.fire('Error', 'Something went wrong.', 'error');
+                });
+            }
+        });
+    }
+
+
+
+</script>
+@endpush

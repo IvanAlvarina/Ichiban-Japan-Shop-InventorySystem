@@ -15,7 +15,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        return view('Order.Orderview');
+        return view('Order.OrderView');
     }
 
     public function getOrders(Request $request)
